@@ -32,6 +32,7 @@ pipeline {
     stage("Deploy") {
       steps {
         sh "echo deploy"
+        archiveArtifacts artifacts: "${ARTIFACTOR}", onlyIfSuccessful: true
       }
     }
   } 
