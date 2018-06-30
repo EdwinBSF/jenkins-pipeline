@@ -12,7 +12,7 @@ pipeline {
   parameters {
     string(name: 'SLACK_CHANNEL', defaultValue: '#deploys', description: '')
     choice(name: 'TYPE', choices: 'aut\ncron\ndata', description: 'Autoscaling, Cron or Data')
-    booleanParam(name: 'LAUNCH_CONFIGURATION', defaultValue: false, description: 'Update aws new ami')
+    booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy to server')
   }
   stages {
     stage("Repository") {
@@ -29,8 +29,8 @@ pipeline {
         sh "echo ${env.SLACK_MESSAGE}"
         sh "touch ${ARTIFACTOR}"
         script {
-          def ID = sh(returnStdout: true, script: "./ami_id.sh ${params.LC}").trim()
-          sh "./build_ami.sh ${ID}"
+          def AMI_ID = sh(returnStdout: true, script: "./ami_id.sh").trim()
+          sh "./build_ami.sh ${AMI_ID}"
         }
 
       }
@@ -44,9 +44,13 @@ pipeline {
       }
     }
     stage("Deploy") {
+      when {
+        expression {
+          return params.DEPLOY ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/
+        }
+      }
       steps {
-        sh "echo deploy"
-        archiveArtifacts artifacts: "${ARTIFACTOR}", onlyIfSuccessful: true
+        sh "echo deploy_servers"
       }
     }
   } 
