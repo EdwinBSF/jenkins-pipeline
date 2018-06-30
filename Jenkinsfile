@@ -28,6 +28,11 @@ pipeline {
         sh "echo ${env.ARTIFACTOR}"
         sh "echo ${env.SLACK_MESSAGE}"
         sh "touch ${ARTIFACTOR}"
+        script {
+          def ID = sh(returnStdout: true, script: "./ami_id.sh ${params.LC}").trim()
+          sh "./build_ami.sh ${ID}"
+        }
+
       }
     }
     stage("Test") {
