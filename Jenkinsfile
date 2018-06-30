@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage("Repository") {
       steps {
-        echo "repository"
+          git url: "https://github.com/mario21ic/jenkins-pipeline.git"
       }
     }
     stage("Build") {
