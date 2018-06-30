@@ -8,7 +8,7 @@ pipeline {
   environment {
     ARTIFACTOR = "${env.BUILD_NUMBER}.zip"
     SLACK_MESSAGE = "Job '${env.JOB_NAME}' Build ${env.BUILD_NUMBER}"
-}
+  }
   stages {
     stage("Repository") {
       steps {
@@ -22,6 +22,7 @@ pipeline {
         sh "echo ${env.BUILD_NUMBER}"
         sh "echo ${env.ARTIFACTOR}"
         sh "echo ${env.SLACK_MESSAGE}"
+        sh "touch ${ARTIFACTOR}"
       }
     }
     stage("Test") {
