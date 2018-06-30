@@ -7,7 +7,7 @@ pipeline {
   }
   environment {
     ARTIFACTOR = "${env.BUILD_NUMBER}.zip"
-    SLACK_MESSAGE = "Job '${env.JOB_NAME}' Build ${env.BUILD_NUMBER} URL ${env.BUILD_URL}"
+    SLACK_MESSAGE = "Job '${env.JOB_NAME}' Build ${env.BUILD_NUMBER}"
 }
   stages {
     stage("Repository") {
